@@ -8,7 +8,7 @@ Author: Adam Tootle
 Author URI: http://www.89designs.net
 */
 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 
 global $wpdb;
