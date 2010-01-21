@@ -70,7 +70,7 @@ function staff_directory_categories() {
     		$wpdb->get_results($sql);
     	
     		$output .= "<p>" . $category_name . " was added</p>";
-    		$output .= "<p><a href=\"http://localhost:8888/wordpress.2.9.1/wp-admin/admin.php?page=staff-directory-categories\">Back To Categories</a></p>";
+    		$output .= "<p><a href=\"" . get_bloginfo('wpurl') . "/wp-admin/admin.php?page=staff-directory-categories\">Back To Categories</a></p>";
 
     	
     	}
