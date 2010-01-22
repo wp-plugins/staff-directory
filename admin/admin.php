@@ -14,10 +14,10 @@ add_action('admin_menu', 'staff_directory_add_pages');
 function staff_directory_add_pages() {
 
     // Add a new top-level menu (ill-advised):
-    add_menu_page('Staff Directory', 'Staff Directory', 'administrator', 'staff-directory', 'staff_directory_main_admin');
+    add_menu_page('Staff Directory', 'Staff Directory', 'edit_pages', 'staff-directory', 'staff_directory_main_admin');
 
     // Categories Page
-    add_submenu_page('staff-directory', 'Categories', 'Categories', 'administrator', 'staff-directory-categories', 'staff_directory_categories');
+    add_submenu_page('staff-directory', 'Categories', 'Categories', 'edit_pages', 'staff-directory-categories', 'staff_directory_categories');
 	
 	// Settings Page
     //add_submenu_page('staff-directory', 'Settings', 'Settings', 'administrator', 'staff-directory-settings', 'staff_directory_settings');
