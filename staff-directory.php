@@ -3,7 +3,7 @@
 Plugin Name: Staff Directory
 Plugin URI: http://www.89designs.net/2009/09/random-product/
 Description: Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
-Version: 0.6.02b
+Version: 0.7b
 Author: Adam Tootle
 Author URI: http://www.89designs.net
 */
@@ -15,8 +15,9 @@ global $wpdb;
 
 require_once( dirname (__FILE__).'/install.php' );
 require_once( dirname (__FILE__).'/admin/admin.php' );
-require_once( dirname (__FILE__).'/database-functions.php' );
+require_once( dirname (__FILE__).'/functions.php' );
 
+add_shortcode('staff-directory', 'wp_staff_directory_shortcode_funct');
 
 
 function wp_staff_directory_shortcode_funct($atts) {
@@ -26,18 +27,10 @@ function wp_staff_directory_shortcode_funct($atts) {
 	), $atts));
 
 	$output = '';
-	$all_staff = get_all_staff();
-
+	
+	// get all staff
 	if(!$cat && !$id){
-		foreach($all_staff as $staff){
-			$output .= "<div style=\"border-bottom:thin solid black; padding:10px 0\">";
-			$output .= $staff->name . " - " . $staff->position;
-			if($staff->bio){
-				$output .= "<p>"  . $staff->bio . "</p>";
-			}
-			$output .= "<br><a href=\"mailto:" . $staff->email_address . "\">Email " . $staff->name . "</a>";			
-			$output .= "</div>";
-		}
+		all_staff();
 	}
 	
 	if($cat && $id){
@@ -45,34 +38,12 @@ function wp_staff_directory_shortcode_funct($atts) {
 	}
 	// get all staff in a category
 	if($cat){
-		foreach($all_staff as $staff){
-			if($staff->category == $cat){
-				$output .= "<div style=\"border-bottom:thin solid black; padding:10px 0\">";
-			$output .= $staff->name . " - " . $staff->position;
-			if($staff->bio){
-				$output .= "<p>"  . $staff->bio . "</p>";
-			}
-			$output .= "<br><a href=\"mailto:" . $staff->email_address . "\">Email " . $staff->name . "</a>";			
-			$output .= "</div>";
-			}
-		}
+		all_staff_in_cat($cat);
 	}
 	// get single staff member
 	if($id){
-		foreach($all_staff as $staff){
-			if($staff->staff_id == $id){
-				$output .= "<div style=\"padding:10px 0\">";
-			$output .= $staff->name . " - " . $staff->position;
-			if($staff->bio){
-				$output .= "<p>"  . $staff->bio . "</p>";
-			}
-			$output .= "<br><a href=\"mailto:" . $staff->email_address . "\">Email " . $staff->name . "</a>";			
-			$output .= "</div>";
-			}
-		}
+		single_staff_member($id);
 	}
 	
-	return $output;
 }
-add_shortcode('staff-directory', 'wp_staff_directory_shortcode_funct');
 ?>
