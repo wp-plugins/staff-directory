@@ -20,9 +20,9 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 == Changelog ==
 
 = 0.7b =
-*Added templating system
-*Added the ability to import existing Wordpress users
-*Added a default 'Uncategorized' category for new installs
+* Added templating system
+* Added the ability to import existing Wordpress users
+* Added a default 'Uncategorized' category for new installs
 
 = 0.6.02b =
 * Enabled editor access to the plugin.
