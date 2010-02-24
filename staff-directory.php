@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Staff Directory
-Plugin URI: http://www.89designs.net/2009/09/random-product/
+Plugin URI: http://www.89designs.net/2010/01/staff-directory/
 Description: Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
-Version: 0.7b
+Version: 0.8b
 Author: Adam Tootle
 Author URI: http://www.89designs.net
 */
@@ -13,9 +13,18 @@ Author URI: http://www.89designs.net
 
 global $wpdb;
 
+$staff_directory_table = $wpdb->prefix . 'staff_directory';
+$staff_photos_directory = $_SERVER['DOCUMENT_ROOT'] . "/wordpress.2.9.1/wp-content/uploads/staff-photos/";
+
+define(STAFF_DIRECTORY_TABLE, $staff_directory_table);
+define(STAFF_PHOTOS_DIRECTORY, $staff_photos_directory);
+
+
 require_once( dirname (__FILE__).'/install.php' );
 require_once( dirname (__FILE__).'/admin/admin.php' );
 require_once( dirname (__FILE__).'/functions.php' );
+
+
 
 add_shortcode('staff-directory', 'wp_staff_directory_shortcode_funct');
 

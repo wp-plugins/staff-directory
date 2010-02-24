@@ -24,9 +24,9 @@ function staff_directory_templates() {
     
     $output .= "<div style=\"padding:15px;\">";
     $output .= "<p>Accepted Shortcodes - These <strong>MUST</strong> be used inside the '[staff_loop]' shortcodes:</p>";
-    $output .= "<p><xmp>[name] , [position] , [email] , [phone] , [bio] , [category]</xmp></p>";
-    $output .= "<p>These will only return strings. If you would like to return pre-formatted headers (using &lt;h3&gt; tags), links, and paragraphs, use these:</p>";
-    $output .= "<p><xmp>[name_header] , [email_link] , [bio_paragraph]</xmp></p>";
+    $output .= "<p><xmp>[name] , [photo_url] , [position] , [email] , [phone] , [bio] , [category]</xmp></p>";
+    $output .= "<p>These will only return string values. If you would like to return pre-formatted headers (using &lt;h3&gt; tags), links, and paragraphs, use these:</p>";
+    $output .= "<p><xmp>[name_header] , [photo] , [email_link] , [bio_paragraph]</xmp></p>";
     $output .= "<form method=\"post\">";
     $output .= "<h3>Staff Page HTML</h3>";
     $output .= "<textarea name=\"staff-index-html\" cols=\"120\" rows=\"16\">$staff_index_template</textarea>";

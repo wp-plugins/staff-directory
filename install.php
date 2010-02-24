@@ -2,6 +2,7 @@
 
 // Check to see if Staff Directory is already installed.
 // If not, create the table. Assume it's a new install
+
 $new_install = true;
 
 $staff_directory_table = $wpdb->prefix . 'staff_directory';
@@ -13,16 +14,16 @@ $tables = $wpdb->get_results('show tables;');
 
 foreach($tables as $tables){
 
-    if( $wpdb->get_var( "SHOW TABLES LIKE '$staff_directory_table'" ) != $staff_directory_table ){
+    if( $wpdb->get_var( "SHOW TABLES LIKE '" . STAFF_DIRECTORY_TABLE . "'") != STAFF_DIRECTORY_TABLE ){
 
     	// install the main staff directory table
-    	$sql = "CREATE TABLE " . $staff_directory_table . " (
+    	$sql = "CREATE TABLE " . STAFF_DIRECTORY_TABLE . " (
                                 staff_id INT(11) NOT NULL AUTO_INCREMENT ,
                                 name VARCHAR(30) NOT NULL ,
                                 position VARCHAR(30) NOT NULL ,
                                 email_address VARCHAR(30) NOT NULL ,
                                 phone_number VARCHAR(30) NOT NULL ,
-                                thumbnail VARCHAR(60) NOT NULL ,
+                                photo VARCHAR(60) NOT NULL ,
                                 bio TEXT NOT NULL ,
                                 category varchar(3),
                                 image varchar(100),
@@ -30,22 +31,15 @@ foreach($tables as $tables){
                         )";
    		$wpdb->get_results($sql);	
     	
-    }
+    }else{
     
-    if( $wpdb->get_var( "SHOW TABLES LIKE '$staff_directory_table'" ) == $staff_directory_table ){
-    	
-    	// Check for 'image' field and add if doesn't exist
-    	/*$sql = "SHOW COLUMNS FROM $staff_directory_table WHERE FIELD = 'image'";
-       	$fields = $wpdb->query($sql);
-    	if($fields == ''){
-    		$sql = "ALTER TABLE  `$staff_directory_table` ADD  `image` VARCHAR( 100 ) NOT NULL AFTER  `bio` ;";
-    		$wpdb->get_results($sql);
-    	}*/
-    	// end 'image' field
-    	
-    	
+    	$sql = "ALTER TABLE  `" . STAFF_DIRECTORY_TABLE . "` CHANGE `thumbnail` `photo` VARCHAR( 60 )";
+    	$wpdb->get_results($sql);
+    	$sql = "ALTER TABLE `" . STAFF_DIRECTORY_TABLE . "` DROP `image`";
+    	$wpdb->get_results($sql);
+    
     }
-        
+            
     // Check and install categories table
     if( $wpdb->get_var( "SHOW TABLES LIKE '$staff_directory_categories'" ) != $staff_directory_categories ){
 

@@ -2,8 +2,8 @@
 Contributors: Adam Tootle
 Donate link: http://www.89designs.net/2010/01/staff-directory/
 Requires at least: 2.7.1
-Tested up to: 2.9.1
-Stable Tag: 0.7b
+Tested up to: 2.9.2
+Stable Tag: tags/0.8b
 
  Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
 
@@ -20,9 +20,9 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 == Changelog ==
 
 = 0.7b =
-* Added templating system
-* Added the ability to import existing Wordpress users
-* Added a default 'Uncategorized' category for new installs
+*Added templating system
+*Added the ability to import existing Wordpress users
+*Added a default 'Uncategorized' category for new installs
 
 = 0.6.02b =
 * Enabled editor access to the plugin.
