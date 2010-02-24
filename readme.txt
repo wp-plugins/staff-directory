@@ -19,6 +19,12 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
+= 0.8b =
+*Added STAFF PHOTOS!!!
+*Added multiple deletes
+*Added filter view on main admin page
+*Added ordering by name and category on main admin page
+
 = 0.7b =
 *Added templating system
 *Added the ability to import existing Wordpress users
