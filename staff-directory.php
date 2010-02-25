@@ -14,7 +14,7 @@ Author URI: http://www.89designs.net
 global $wpdb;
 
 $staff_directory_table = $wpdb->prefix . 'staff_directory';
-$staff_photos_directory = $_SERVER['DOCUMENT_ROOT'] . "/wordpress.2.9.1/wp-content/uploads/staff-photos/";
+$staff_photos_directory = $_SERVER['DOCUMENT_ROOT'] . "/wp-content/uploads/staff-photos/";
 
 define(STAFF_DIRECTORY_TABLE, $staff_directory_table);
 define(STAFF_PHOTOS_DIRECTORY, $staff_photos_directory);
