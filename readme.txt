@@ -3,7 +3,7 @@ Contributors: Adam Tootle
 Donate link: http://www.89designs.net/2010/01/staff-directory/
 Requires at least: 2.7.1
 Tested up to: 2.9.2
-Stable Tag: tags/0.8b
+Stable Tag: tags/0.8.01b
 
  Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
 
