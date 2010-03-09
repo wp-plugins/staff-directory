@@ -20,10 +20,13 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 == Changelog ==
 
 = 0.8b =
-*Added STAFF PHOTOS!!!.
-*Added multiple deletes.
-*Added filter view on main admin page.
-*Added ordering by name and category on main admin page.
+
+<ul>
+<li>Added STAFF PHOTOS!!!</li>
+<li>Added multiple deletes</li>
+<li>Added filter view on main admin page</li>
+<li>Added ordering by name and category on main admin page</li>
+</ul>
 
 = 0.7b =
 *Added templating system.
