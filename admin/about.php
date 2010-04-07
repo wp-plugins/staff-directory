@@ -19,6 +19,13 @@ function about_staff_directory() {
 				<b>[staff-directory cat=x]</b> will display each staff member in the category with the id specified. Replace x and use like so: [staff-directory cat =1]
 				<br /><br />
 				<b>[staff-directory id=x]</b> will display a single staff member, specified by the id. Works like the category tag: [staff-directory id=3]
+				<br /><br />
+				</p>
+				<p>
+				<h3>Upcoming Features</h3>
+				<li>Ordering Feature</li>
+				<li>Improved UI</li>
+				<li>It's been requested that I set up a GIThub project for this. I am looking into it.</li>
 				</p>";
     $output .= "</div>";
     
