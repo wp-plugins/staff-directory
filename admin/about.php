@@ -25,7 +25,7 @@ function about_staff_directory() {
 				<h3>Upcoming Features</h3>
 				<li>Ordering Feature</li>
 				<li>Improved UI</li>
-				<li>It's been requested that I set up a GIThub project for this. I am looking into it.</li>
+				<li>It's been requested that I set up a GIThub repository for this. I am looking into it.</li>
 				</p>";
     $output .= "</div>";
     
