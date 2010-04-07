@@ -19,6 +19,9 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
+= 0.8.03b =
+<li>Fixed mkdir() error</li>
+<li>Fixed image issue when display a category</li>
 = 0.8b =
 
 <ul>
