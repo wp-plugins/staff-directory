@@ -19,7 +19,7 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
-= 0.8.04 =
+= 0.8.04b =
 <ul>
 <li>Fixed staff directory tags rendering before content placed above it in a post</li>
 <li>Added ordering parameters to shortcodes</li>
