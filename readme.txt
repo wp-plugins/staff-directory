@@ -19,6 +19,12 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
+= 0.8.04 =
+<ul>
+<li>Fixed staff directory tags rendering before content placed above it in a post</li>
+<li>Added ordering parameters to shortcodes</li>
+<li>Added template tag</li>
+</ul>
 = 0.8.03b =
 <ul>
 <li>Fixed mkdir() error</li>

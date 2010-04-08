@@ -15,7 +15,8 @@ global $wpdb;
 
 $staff_directory_table = $wpdb->prefix . 'staff_directory';
 
-define(STAFF_DIRECTORY_TABLE, $staff_directory_table);
+define(STAFF_DIRECTORY_TABLE, $wpdb->prefix . 'staff_directory');
+define(STAFF_TEMPLATES, $wpdb->prefix . 'staff_directory_templates');
 define(STAFF_PHOTOS_DIRECTORY, WP_CONTENT_DIR . "/uploads/staff-photos/");
 
 
@@ -30,8 +31,8 @@ add_shortcode('staff-directory', 'wp_staff_directory_shortcode_funct');
 
 function wp_staff_directory_shortcode_funct($atts) {
 	extract(shortcode_atts(array(
-		'cat' => '',
 		'id' => '',
+		'cat' => '',
 		'orderby' => '',
 		'order' => ''
 	), $atts));
@@ -39,24 +40,9 @@ function wp_staff_directory_shortcode_funct($atts) {
 	$output = '';
 	
 	// get all staff
-	if(!$cat && !$id && (!$order || $order == 'default')){
-		all_staff();
-	}
+	$param = "id=$id&cat=$cat&orderby=$orderby&order=$order";
+	return staff_directory($param);
 	
-	if($cat && $id){
-		return "You can't set both a category and a single id";
-	}
-	if($order){
-		echo $order;
-	}
-	// get all staff in a category
-	if($cat){
-		all_staff_in_cat($cat);
-	}
-	// get single staff member
-	if($id){
-		single_staff_member($id);
-	}
 	
 }
 ?>
