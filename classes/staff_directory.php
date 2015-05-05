@@ -13,6 +13,8 @@ class StaffDirectory {
     add_filter('admin_head', array('StaffDirectory', 'remove_media_buttons'));
     add_action('add_meta_boxes_staff', array('StaffDirectory', 'add_staff_custom_meta_boxes'));
     add_action('save_post', array('StaffDirectory', 'save_meta_boxes'));
+    add_action('wp_enqueue_scripts', array('StaffDirectory', 'enqueue_fontawesome'));
+    add_action('admin_enqueue_scripts', array('StaffDirectory', 'enqueue_fontawesome'));
   }
 
   static function create_post_types() {
@@ -54,6 +56,10 @@ class StaffDirectory {
   			'hierarchical' => true
   		),
   	));
+  }
+
+  static function enqueue_fontawesome() {
+    wp_enqueue_style('font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css', array(), '4.0.3');
   }
 
   #

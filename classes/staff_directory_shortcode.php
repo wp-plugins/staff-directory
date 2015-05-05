@@ -51,8 +51,10 @@ class StaffDirectoryShortcode {
   	// check if we're returning a staff category
   	if((isset($cat) && $cat != '') && (!isset($id) || $id == '')){
   		$query_args['tax_query'] = array(
-        'taxonomy' => 'staff_category',
-        'terms' => array($cat)
+        array(
+          'taxonomy' => 'staff_category',
+          'terms' => array($cat)
+        )
       );
   	}
 
