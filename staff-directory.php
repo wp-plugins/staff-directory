@@ -8,20 +8,16 @@ Author: Adam Tootle
 Author URI: http://www.adamtootle.com
 */
 
-//error_reporting(E_ALL);
-
-
 global $wpdb;
-
 $staff_directory_table = $wpdb->prefix . 'staff_directory';
 
 define('STAFF_DIRECTORY_TABLE', $wpdb->prefix . 'staff_directory');
 define('STAFF_TEMPLATES', $wpdb->prefix . 'staff_directory_templates');
 define('STAFF_PHOTOS_DIRECTORY', WP_CONTENT_DIR . "/uploads/staff-photos/");
 
-require_once(dirname (__FILE__).'/classes/staff_directory.php');
-require_once(dirname (__FILE__).'/classes/staff_directory_shortcode.php');
-require_once(dirname (__FILE__).'/classes/staff_directory_admin.php');
+require_once(dirname(__FILE__) . '/classes/staff_directory.php');
+require_once(dirname(__FILE__) . '/classes/staff_directory_shortcode.php');
+require_once(dirname(__FILE__) . '/classes/staff_directory_admin.php');
 
 StaffDirectory::register_post_types();
 StaffDirectoryAdmin::register_admin_menu_items();
