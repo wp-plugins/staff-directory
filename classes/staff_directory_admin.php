@@ -126,7 +126,7 @@ class StaffDirectoryAdmin {
       </p>
 
       <p>
-        <a href="/wp-admin/edit.php?post_type=staff&page=staff-directory-import&import=true" class="button button-primary">Import Old Staff</a>
+        <a href="<?php echo get_admin_url(); ?>edit.php?post_type=staff&page=staff-directory-import&import=true" class="button button-primary">Import Old Staff</a>
       </p>
 
     <?php else: ?>
@@ -135,7 +135,7 @@ class StaffDirectoryAdmin {
 
         <div class="updated">
           <p>
-            Old staff was successfully imported! You can <a href="/wp-admin/edit.php?post_type=staff">view all staff here</a>.
+            Old staff was successfully imported! You can <a href="<?php echo get_admin_url(); ?>edit.php?post_type=staff">view all staff here</a>.
           </p>
         </div>
 
@@ -161,7 +161,7 @@ class StaffDirectoryAdmin {
 
     <div class="update-nag">
       It looks like you have staff from an older version of the Staff Directory plugin.
-      You can <a href="/wp-admin/edit.php?post_type=staff&page=staff-directory-import">import them</a> to the newer version if you would like.
+      You can <a href="<?php echo get_admin_url(); ?>edit.php?post_type=staff&page=staff-directory-import">import them</a> to the newer version if you would like.
     </div>
 
     <?php

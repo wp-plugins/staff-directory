@@ -51,8 +51,10 @@ class StaffDirectoryShortcode {
   	// check if we're returning a staff category
   	if((isset($cat) && $cat != '') && (!isset($id) || $id == '')){
   		$query_args['tax_query'] = array(
-        'taxonomy' => 'staff_category',
-        'terms' => array($cat)
+        array(
+          'taxonomy' => 'staff_category',
+          'terms' => array($cat)
+        )
       );
   	}
 
@@ -79,9 +81,11 @@ class StaffDirectoryShortcode {
 
       $staff_position = get_post_meta(get_the_ID(), 'position', true);
       $staff_email = get_post_meta(get_the_ID(), 'email', true);
+      $staff_email_link = $staff_email != '' ? "<a href=\"mailto:$staff_email\">Email $staff_name</a>" : "";
       $staff_phone_number = get_post_meta(get_the_ID(), 'phone_number', true);
       $staff_bio = get_the_content();
       $staff_website = get_post_meta(get_the_ID(), 'website', true);
+      $staff_website_link = $staff_website != '' ? "<a href=\"$staff_website\" target=\"_blank\">View website</a>" : "";
 
       $staff_categories = wp_get_post_terms(get_the_ID(), 'staff_category');
       if (count($staff_categories) > 0) {
@@ -94,7 +98,7 @@ class StaffDirectoryShortcode {
   		$replace_single_values = array($staff_name, $photo_url, $staff_position, $staff_email, $staff_phone_number, $staff_bio, $staff_website, $staff_category);
 
   		$accepted_formatted_tags = array("[name_header]", "[photo]", "[email_link]", "[bio_paragraph]", "[website_link]");
-  		$replace_formatted_values = array("<h3>$staff_name</h3>", $photo_tag, "<a href=\"mailto:$staff_email\">Email $staff_name</a>", "<p>$staff_bio</p>", "<a href=\"$staff_website\" target=\"_blank\">View website</a>");
+  		$replace_formatted_values = array("<h3>$staff_name</h3>", $photo_tag, $staff_email_link, "<p>$staff_bio</p>", $staff_website_link);
 
   		$current_staff_markup = str_replace($accepted_single_tags, $replace_single_values, $loop_markup);
   		$current_staff_markup = str_replace($accepted_formatted_tags, $replace_formatted_values, $current_staff_markup);
