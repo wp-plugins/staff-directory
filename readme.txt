@@ -1,10 +1,9 @@
 === Plugin Name ===
 Contributors: adamtootle
-Donate link: http://www.89designs.net/2010/01/staff-directory/
 Tags: staff directory
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9
+Stable Tag: tags/0.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +20,11 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 3. See the admin help page for usage instructions
 
 == Changelog ==
+
+= 0.9.1 =
+<ul>
+<li>Added a website field and [website] template tags for staff members</li>
+</ul>
 
 = 0.9 =
 It's been nearly 5 years to the day since I last updated this. I still get emails

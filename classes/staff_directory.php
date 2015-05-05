@@ -86,19 +86,32 @@ class StaffDirectory {
 
     ?>
 
+    <style type="text/css">
+      label.staff-label {
+        float: left;
+        line-height: 27px;
+        width: 130px;
+      }
+    </style>
+
     <p>
-      <label for="staff[position]"><?php _e( 'Position'); ?>:</label>
+      <label for="staff[position]" class="staff-label"><?php _e('Position'); ?>:</label>
       <input type="text" name="staff[position]" value="<?php echo get_post_meta($post->ID, 'position', true); ?>" />
     </p>
 
     <p>
-      <label for="staff[email]"><?php _e( 'Email'); ?>:</label>
+      <label for="staff[email]" class="staff-label"><?php _e('Email'); ?>:</label>
       <input type="text" name="staff[email]" value="<?php echo get_post_meta($post->ID, 'email', true); ?>" />
     </p>
 
     <p>
-      <label for="staff[phone_number]"><?php _e( 'Phone Number'); ?>:</label>
+      <label for="staff[phone_number]" class="staff-label"><?php _e('Phone Number'); ?>:</label>
       <input type="text" name="staff[phone_number]" value="<?php echo get_post_meta($post->ID, 'phone_number', true); ?>" />
+    </p>
+
+    <p>
+      <label for="staff[website]" class="staff-label"><?php _e('Website'); ?>:</label>
+      <input type="text" name="staff[website]" value="<?php echo get_post_meta($post->ID, 'website', true); ?>" />
     </p>
 
     <?php
@@ -122,6 +135,9 @@ class StaffDirectory {
 
     if(isset($_POST['staff']['phone_number']))
       update_post_meta($post_id, 'phone_number', esc_attr($_POST['staff']['phone_number']));
+
+      if(isset($_POST['staff']['website']))
+        update_post_meta($post_id, 'website', esc_attr($_POST['staff']['website']));
   }
 
   #
