@@ -33,6 +33,7 @@ class StaffDirectoryAdmin {
       <code>[email]</code>,
       <code>[phone]</code>,
       <code>[bio]</code>,
+      <code>[website]</code>,
       <code>[category]</code>
     </p>
 
@@ -44,7 +45,8 @@ class StaffDirectoryAdmin {
       <code>[name_header]</code>,
       <code>[photo]</code>,
       <code>[email_link]</code>,
-      <code>[bio_paragraph]</code>
+      <code>[bio_paragraph]</code>,
+      <code>[website_link]</code>
     </p>
 
     <form method="post">
