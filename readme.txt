@@ -21,6 +21,11 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
+= 0.9.2 =
+<ul>
+<li>Fixed an error with the cat shortcode param</li>
+</ul>
+
 = 0.9.1 =
 <ul>
 <li>Added a website field and [website] template tags for staff members</li>
