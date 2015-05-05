@@ -3,7 +3,7 @@ Contributors: adamtootle
 Tags: staff directory
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9.3
+Stable Tag: tags/0.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,11 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 3. See the admin help page for usage instructions
 
 == Changelog ==
+
+= 0.9.4 =
+<ul>
+<li>Preventing blank links from showing for a staff member's email and website if a value isn't set</li>
+</ul>
 
 = 0.9.3 =
 <ul>
