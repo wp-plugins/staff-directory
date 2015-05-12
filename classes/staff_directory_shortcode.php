@@ -31,7 +31,8 @@ class StaffDirectoryShortcode {
   	}
 
     $query_args = array(
-      'post_type' => 'staff'
+      'post_type' => 'staff',
+      'posts_per_page' => -1
     );
 
   	// check if it's a single staff member first, since single members won't be ordered
