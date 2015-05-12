@@ -21,6 +21,13 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 
 == Changelog ==
 
+= 0.9.5 =
+<ul>
+<li>Added a couple of stock templates for anyone who may not want to use the custom template option</li>
+<li>Fixed the issue where staff queries were limited to 10 results</li>
+<li>Changed how the [photo] template tag was being replaced</li>
+</ul>
+
 = 0.9.4 =
 <ul>
 <li>Preventing blank links from showing for a staff member's email and website if a value isn't set</li>
