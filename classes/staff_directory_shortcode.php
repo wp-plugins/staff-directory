@@ -248,7 +248,7 @@ EOT;
       if (has_post_thumbnail()) {
         $photo_url = wp_get_attachment_image_src(get_post_thumbnail_id());
         $photo_url = $photo_url[0];
-        $photo_tag = get_the_post_thumbnail();
+        $photo_tag = '<img src="' . $photo_url . '" />';
       } else {
         $photo_url = "";
         $photo_tag = "";
