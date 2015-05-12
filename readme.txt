@@ -3,7 +3,7 @@ Contributors: adamtootle
 Tags: staff directory
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9.5
+Stable Tag: tags/0.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,12 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 3. See the admin help page for usage instructions
 
 == Changelog ==
+
+= 0.9.6 =
+<ul>
+<li>Fixed a potential error with how the array of featured imgage data is accessed</li>
+<li>Fixed how the template defaults to 'custom' on the frontend if the template option isn't set but the custom html option is</li>
+</ul>
 
 = 0.9.5 =
 <ul>
