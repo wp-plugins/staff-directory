@@ -23,7 +23,10 @@ class StaffDirectoryShortcode {
   static function show_staff_directory($param = null){
   	parse_str($param);
   	global $wpdb;
-    $current_template = get_option('staff_directory_template_slug', 'list');
+    $current_template = get_option('staff_directory_template_slug');
+    if($current_template == '' && get_option('staff_directory_html_template') != '') {
+      $current_template = 'custom';
+    }
 
   	// make sure we aren't calling both id and cat at the same time
   	if(isset($id) && $id!= '' && isset($cat) && $cat != ''){
@@ -133,8 +136,9 @@ EOT;
       $bio = get_the_content();
 
       if(has_post_thumbnail()) {
-        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
-        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
+        $photo_html = '<div class="photo"><img src="' . $photo_url . '" /></div>';
       } else {
         $photo_html = '';
       }
@@ -215,8 +219,9 @@ EOT;
       $position = get_post_meta(get_the_ID(), 'position', true);
 
       if(has_post_thumbnail()) {
-        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
-        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
+        $photo_html = '<div class="photo"><img src="' . $photo_url . '" /></div>';
       } else {
         $photo_html = '';
       }
@@ -246,8 +251,8 @@ EOT;
 
       $staff_name = get_the_title();
       if (has_post_thumbnail()) {
-        $photo_url = wp_get_attachment_image_src(get_post_thumbnail_id());
-        $photo_url = $photo_url[0];
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
         $photo_tag = '<img src="' . $photo_url . '" />';
       } else {
         $photo_url = "";
