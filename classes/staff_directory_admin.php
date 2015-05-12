@@ -12,53 +12,138 @@ class StaffDirectoryAdmin {
   }
 
   static function settings() {
-    if (isset($_POST['staff_templates']['html'])) {
-      update_option('staff_directory_html_template', $_POST['staff_templates']['html']);
+    if (isset($_POST['staff_templates']['slug']) && $_POST['staff_templates']['slug'] != 'custom') {
+
+      update_option('staff_directory_template_slug', $_POST['staff_templates']['slug']);
+      $did_update_options = true;
+
+    } else if ($_POST['staff_templates']['slug'] == 'custom') {
+
+      update_option('staff_directory_template_slug', 'custom');
+      if (isset($_POST['staff_templates']['html'])) {
+        update_option('staff_directory_html_template', $_POST['staff_templates']['html']);
+      }
+      if (isset($_POST['staff_templates']['css'])) {
+        update_option('staff_directory_css_template', $_POST['staff_templates']['css']);
+      }
+
+      $did_update_options = true;
+
     }
-    if (isset($_POST['staff_templates']['css'])) {
-      update_option('staff_directory_css_template', $_POST['staff_templates']['css']);
+
+    $current_template = get_option('staff_directory_template_slug');
+
+    if($current_template == '' && get_option('staff_directory_html_template') != '') {
+      update_option('staff_directory_template_slug', 'custom');
+      $current_template = 'custom';
+    } else if($current_template == '') {
+      update_option('staff_directory_template_slug', 'list');
+      $current_template = 'list';
     }
+
+    add_thickbox(); // loads thickbox
     ?>
 
-    <h2>Templates</h2>
+    <script type="text/javascript">
+      jQuery(document).ready(function($){
+        $('input[name="staff_templates[slug]"]').on('change', function(){
+          if($(this).val() == 'custom') {
+            $("#custom-template").slideDown();
+          } else {
+            $("#custom-template").slideUp();
+          }
+        })
+      });
+    </script>
 
-    <p>
-      Accepted Shortcodes - These MUST be used inside the <code>[staff_loop]</code> shortcodes:
-    </p>
+    <style type="text/css">
+      div.updated.staff-success-message {
+        margin-left: 0px;
+        margin-top: 20px;
+      }
+    </style>
 
-    <p>
-      <code>[name]</code>,
-      <code>[photo_url]</code>,
-      <code>[position]</code>,
-      <code>[email]</code>,
-      <code>[phone]</code>,
-      <code>[bio]</code>,
-      <code>[website]</code>,
-      <code>[category]</code>
-    </p>
-
-    <p>
-      These will only return string values. If you would like to return pre-formatted headers (using &lt;h3&gt; tags), links, and paragraphs, use these:
-    </p>
-
-    <p>
-      <code>[name_header]</code>,
-      <code>[photo]</code>,
-      <code>[email_link]</code>,
-      <code>[bio_paragraph]</code>,
-      <code>[website_link]</code>
-    </p>
+    <?php if($did_update_options): ?>
+      <div id="message" class="updated notice notice-success is-dismissible below-h2 staff-success-message">
+        <p>Options updated.</p>
+      </div>
+    <?php endif; ?>
 
     <form method="post">
-      <label for="staff_templates[html]">Staff Page HTML:</label>
+
+      <h2>Templates</h2>
+
+      <p>Choose template:</p>
+
       <p>
-        <textarea name="staff_templates[html]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_html_template')); ?></textarea>
+        <?php if($current_template == 'list'): ?>
+          <input type="radio" name="staff_templates[slug]" value="list" checked />
+        <?php else: ?>
+          <input type="radio" name="staff_templates[slug]" value="list" />
+        <?php endif; ?>
+        List
       </p>
 
-      <label for="staff_templates[css]">Staff Page CSS:</label>
       <p>
-        <textarea name="staff_templates[css]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_css_template')); ?></textarea>
+        <?php if($current_template == 'grid'): ?>
+          <input type="radio" name="staff_templates[slug]" value="grid" checked />
+        <?php else: ?>
+          <input type="radio" name="staff_templates[slug]" value="grid" />
+        <?php endif; ?>
+        Grid
       </p>
+
+      <p>
+        <?php if($current_template == 'custom'): ?>
+          <input type="radio" name="staff_templates[slug]" value="custom" checked />
+        <?php else: ?>
+          <input type="radio" name="staff_templates[slug]" value="custom">
+        <?php endif; ?>
+        Custom
+      </p>
+
+      <?php if($current_template == 'custom'): ?>
+        <div id="custom-template">
+      <?php else: ?>
+        <div id="custom-template" style="display:none;">
+      <?php endif;?>
+        <p>
+          Accepted Shortcodes - These MUST be used inside the <code>[staff_loop]</code> shortcodes:
+        </p>
+
+        <p>
+          <code>[name]</code>,
+          <code>[photo_url]</code>,
+          <code>[position]</code>,
+          <code>[email]</code>,
+          <code>[phone]</code>,
+          <code>[bio]</code>,
+          <code>[website]</code>,
+          <code>[category]</code>
+        </p>
+
+        <p>
+          These will only return string values. If you would like to return pre-formatted headers (using &lt;h3&gt; tags), links, and paragraphs, use these:
+        </p>
+
+        <p>
+          <code>[name_header]</code>,
+          <code>[photo]</code>,
+          <code>[email_link]</code>,
+          <code>[bio_paragraph]</code>,
+          <code>[website_link]</code>
+        </p>
+
+        <label for="staff_templates[html]">Staff Page HTML:</label>
+        <p>
+          <textarea name="staff_templates[html]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_html_template')); ?></textarea>
+        </p>
+
+        <label for="staff_templates[css]">Staff Page CSS:</label>
+        <p>
+          <textarea name="staff_templates[css]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_css_template')); ?></textarea>
+        </p>
+      </div>
 
       <p>
         <input type="submit" class="button button-primary button-large" value="Save">

@@ -23,20 +23,12 @@ class StaffDirectoryShortcode {
   static function show_staff_directory($param = null){
   	parse_str($param);
   	global $wpdb;
-  	$output = '';
+    $current_template = get_option('staff_directory_template_slug', 'list');
 
   	// make sure we aren't calling both id and cat at the same time
   	if(isset($id) && $id!= '' && isset($cat) && $cat != ''){
   		return "<strong>ERROR: You cannot set both a single ID and a category ID for your Staff Directory</strong>";
   	}
-
-    // go ahead and load all of our template data for processing
-  	$index_html = stripslashes(get_option('staff_directory_html_template'));
-  	$index_css = stripslashes(get_option('staff_directory_css_template'));
-
-  	$output .= "<style type=\"text/css\">$index_css</style>";
-  	$loop_markup = $loop_markup_reset = str_replace("[staff_loop]", "", substr($index_html, strpos($index_html, "[staff_loop]"), strpos($index_html, "[/staff_loop]") - strpos($index_html, "[staff_loop]")));
-  	// done with our templates, for now
 
     $query_args = array(
       'post_type' => 'staff'
@@ -66,8 +58,190 @@ class StaffDirectoryShortcode {
     }
 
     $staff_query = new WP_Query($query_args);
-    while($staff_query->have_posts()) {
-      $staff_query->the_post();
+
+    switch($current_template){
+      case 'list':
+      default:
+        $output = StaffDirectoryShortcode::html_for_list_template($staff_query);
+        break;
+      case 'grid':
+        $output = StaffDirectoryShortcode::html_for_grid_template($staff_query);
+        break;
+      case 'custom':
+        $output = StaffDirectoryShortcode::html_for_custom_template($staff_query);
+        break;
+
+    }
+
+    wp_reset_query();
+
+  	return $output;
+  }
+
+  static function html_for_list_template($wp_query) {
+    $output = <<<EOT
+      <style type="text/css">
+        .clearfix {
+          clear: both;
+        }
+        .single-staff {
+          margin-bottom: 50px;
+        }
+        .single-staff .photo {
+          float: left;
+          margin-right: 15px;
+        }
+        .single-staff .photo img {
+          max-width: 100px;
+          height: auto;
+        }
+        .single-staff .name {
+          font-size: 1em;
+          line-height: 1em;
+          margin-bottom: 4px;
+        }
+        .single-staff .position {
+          font-size: .9em;
+          line-height: .9em;
+          margin-bottom: 10px;
+        }
+        .single-staff .bio {
+          margin-bottom: 8px;
+        }
+        .single-staff .email {
+          font-size: .9em;
+          line-height: .9em;
+          margin-bottom: 10px;
+        }
+        .single-staff .phone {
+          font-size: .9em;
+          line-height: .9em;
+        }
+        .single-staff .website {
+          font-size: .9em;
+          line-height: .9em;
+        }
+      </style>
+      <div id="staff-directory-wrapper">
+EOT;
+    while($wp_query->have_posts()) {
+      $wp_query->the_post();
+
+      $name = get_the_title();
+      $position = get_post_meta(get_the_ID(), 'position', true);
+      $bio = get_the_content();
+
+      if(has_post_thumbnail()) {
+        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
+        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+      } else {
+        $photo_html = '';
+      }
+
+      if(get_post_meta(get_the_ID(), 'email', true) != '') {
+        $email = get_post_meta(get_the_ID(), 'email', true);
+        $email_html = '<div class="email">Email: <a href="mailto:' . $email . '">' . $email . '</a></div>';
+      } else {
+        $email_html = '';
+      }
+
+      if(get_post_meta(get_the_ID(), 'phone', true) != '') {
+        $phone_html = '<div class="phone">Phone: ' . get_post_meta(get_the_ID(), 'phone', true) . '</div>';
+      } else {
+        $phone_html = '';
+      }
+
+      if(get_post_meta(get_the_ID(), 'website', true) != '') {
+        $website = get_post_meta(get_the_ID(), 'website', true);
+        $website_html = '<div class="website">Website: <a href="' . $website . '">' . $website . '</a></div>';
+      } else {
+        $website_html = '';
+      }
+
+      $output .= <<<EOT
+        <div class="single-staff">
+          $photo_html
+          <div class="name">$name</div>
+          <div class="position">$position</div>
+          <div class="bio">$bio</div>
+          $email_html
+          $phone_html
+          $website_html
+          <div class="clearfix"></div>
+        </div>
+EOT;
+    }
+    $output .= "</div>";
+    return $output;
+  }
+
+  static function html_for_grid_template($wp_query) {
+    $output = <<<EOT
+      <style type="text/css">
+        .clearfix {
+          clear: both;
+        }
+        .single-staff {
+          float: left;
+          width: 25%;
+          text-align: center;
+          padding: 0px 10px;
+        }
+        .single-staff .photo {
+          margin-bottom: 5px;
+        }
+        .single-staff .photo img {
+          max-width: 100px;
+          height: auto;
+        }
+        .single-staff .name {
+          font-size: 1em;
+          line-height: 1em;
+          margin-bottom: 4px;
+        }
+        .single-staff .position {
+          font-size: .9em;
+          line-height: .9em;
+          margin-bottom: 10px;
+        }
+      </style>
+      <div id="staff-directory-wrapper">
+EOT;
+    while($wp_query->have_posts()) {
+      $wp_query->the_post();
+
+      $name = get_the_title();
+      $position = get_post_meta(get_the_ID(), 'position', true);
+
+      if(has_post_thumbnail()) {
+        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
+        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+      } else {
+        $photo_html = '';
+      }
+
+      $output .= <<<EOT
+        <div class="single-staff">
+          $photo_html
+          <div class="name">$name</div>
+          <div class="position">$position</div>
+        </div>
+EOT;
+    }
+    $output .= "</div>";
+    return $output;
+  }
+
+  static function html_for_custom_template($wp_query) {
+    $output = '';
+    $index_html = stripslashes(get_option('staff_directory_html_template'));
+  	$index_css = stripslashes(get_option('staff_directory_css_template'));
+
+  	$output .= "<style type=\"text/css\">$index_css</style>";
+  	$loop_markup = $loop_markup_reset = str_replace("[staff_loop]", "", substr($index_html, strpos($index_html, "[staff_loop]"), strpos($index_html, "[/staff_loop]") - strpos($index_html, "[staff_loop]")));
+
+    while($wp_query->have_posts()) {
+      $wp_query->the_post();
 
       $staff_name = get_the_title();
       if (has_post_thumbnail()) {
@@ -105,9 +279,6 @@ class StaffDirectoryShortcode {
 
   		$output .= $current_staff_markup;
     }
-
-    wp_reset_query();
-
-  	return $output;
+    return $output;
   }
 }
