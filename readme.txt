@@ -7,11 +7,13 @@ Stable Tag: tags/0.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
- Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
+ Easily display a list of staff/faculty/team members. Supports staff categories as well. Good for churches, companies, teams, etc.
 
 == Description ==
 
-Staff Directory is deigned to keep track of your list of staff members for easy display on your site. It also allows for categorization of your staff.
+Staff Directory is deigned to help you easily display a list of staff/faculty/team members. It also supports staff categories as well as an array of options for the [staff-directory] shortcode.
+
+The plugin provides 2 basic templates but also offers a completely custom template option.
 
 == Installation ==
 
