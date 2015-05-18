@@ -3,7 +3,7 @@ Contributors: adamtootle
 Tags: staff directory
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9.6
+Stable Tag: tags/0.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,18 @@ The plugin provides 2 basic templates but also offers a completely custom templa
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. See the admin help page for usage instructions
 
+== Frequently Asked Questions ==
+
+= What happened to my categories after I updated to version 0.9? =
+
+Staff categories are now managed using the internal WordPress category management system. This means that old staff category IDs could not be maintained during the import. The plugin has added support for showing the new category IDs in the Staff Categories table so you can easily get the new IDs in order to update existing shortcodes.
+
 == Changelog ==
+
+= 0.9.7 =
+<ul>
+<li>Added an ID column to the staff categories table for easily getting the new IDs</li>
+</ul>
 
 = 0.9.6 =
 <ul>
@@ -80,7 +91,6 @@ APIs.
 </ul>
 
 = 0.8b =
-
 <ul>
 <li>Added STAFF PHOTOS!!!</li>
 <li>Added multiple deletes</li>
@@ -89,15 +99,23 @@ APIs.
 </ul>
 
 = 0.7b =
-*Added templating system.
-*Added the ability to import existing Wordpress users.
-*Added a default 'Uncategorized' category for new installs.
+<ul>
+<li>Added templating system.</li>
+<li>Added the ability to import existing Wordpress users.</li>
+<li>Added a default 'Uncategorized' category for new installs.</li>
+</ul>
 
 = 0.6.02b =
-* Enabled editor access to the plugin.
+<ul>
+<li>Enabled editor access to the plugin.</li>
+</ul>
 
 = 0.6.01b =
-* Removed a line of debug code.
+<ul>
+<li>Removed a line of debug code.</li>
+</ul>
 
 = 0.6b =
-* Initial beta release.
+<ul>
+<li>Initial beta release.</li>
+</ul>
