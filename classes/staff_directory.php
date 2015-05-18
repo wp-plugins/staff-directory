@@ -9,6 +9,8 @@ class StaffDirectory {
   static function register_post_types() {
     add_action('init', array('StaffDirectory', 'create_post_types'));
     add_action('init', array('StaffDirectory', 'create_staff_taxonomies'));
+    add_filter("manage_edit-staff_category_columns", array('StaffDirectory', 'set_staff_category_columns'));
+    add_filter("manage_staff_category_custom_column", array('StaffDirectory', 'custom_staff_category_columns'), 10, 3);
     add_filter('enter_title_here', array('StaffDirectory', 'staff_title_text'));
     add_filter('admin_head', array('StaffDirectory', 'remove_media_buttons'));
     add_action('add_meta_boxes_staff', array('StaffDirectory', 'add_staff_custom_meta_boxes'));
@@ -56,6 +58,30 @@ class StaffDirectory {
   			'hierarchical' => true
   		),
   	));
+  }
+
+  static function set_staff_category_columns() {
+    $new_columns = array(
+  	  'cb' => '<input type="checkbox" />',
+  	  'name' => __('Name'),
+  	  'id' => __('ID'),
+  		'description' => __('Description'),
+      'slug' => __('Slug'),
+      'posts' => __('Posts')
+  	);
+  	return $new_columns;
+  }
+
+  static function custom_staff_category_columns($out, $column_name, $theme_id) {
+      switch ($column_name) {
+          case 'id':
+              $out .= $theme_id;
+              break;
+
+          default:
+              break;
+      }
+      return $out;
   }
 
   static function enqueue_fontawesome() {
