@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Staff Directory
-Plugin URI: http://www.89designs.net/2010/01/staff-directory/
+Plugin URI: https://wordpress.org/plugins/staff-directory/
 Description: Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
-Version: 0.9.4
+Version: 0.9.8
 Author: Adam Tootle
 Author URI: http://www.adamtootle.com
 */
@@ -20,6 +20,7 @@ require_once(dirname(__FILE__) . '/classes/staff_directory_shortcode.php');
 require_once(dirname(__FILE__) . '/classes/staff_directory_admin.php');
 
 StaffDirectory::register_post_types();
+StaffDirectory::set_default_meta_fields_if_necessary();
 StaffDirectoryAdmin::register_admin_menu_items();
 StaffDirectoryShortcode::register_shortcode();
 

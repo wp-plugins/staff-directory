@@ -31,6 +31,24 @@ class StaffDirectoryAdmin {
 
     }
 
+    if (isset($_POST['staff_meta_fields_labels'])) {
+      $index = 0;
+      $meta_fields_array = array();
+      foreach($_POST['staff_meta_fields_labels'] as $meta_label) {
+        $slug = strtolower($meta_label);
+        $slug = str_replace(' ', '_', $slug);
+        if($meta_label != '') {
+          $meta_fields_array[] = array(
+            'name' => $meta_label,
+            'slug' => $slug,
+            'type' => $_POST['staff_meta_fields_types'][$index]
+          );
+        }
+        $index++;
+      }
+      update_option('staff_meta_fields', $meta_fields_array);
+    }
+
     $current_template = get_option('staff_directory_template_slug');
 
     if($current_template == '' && get_option('staff_directory_html_template') != '') {
@@ -41,149 +59,16 @@ class StaffDirectoryAdmin {
       $current_template = 'list';
     }
 
+    
+
     add_thickbox(); // loads thickbox
-    ?>
 
-    <script type="text/javascript">
-      jQuery(document).ready(function($){
-        $('input[name="staff_templates[slug]"]').on('change', function(){
-          if($(this).val() == 'custom') {
-            $("#custom-template").slideDown();
-          } else {
-            $("#custom-template").slideUp();
-          }
-        })
-      });
-    </script>
+    require_once(plugin_dir_path(__FILE__) . '../views/admin_settings.php');
 
-    <style type="text/css">
-      div.updated.staff-success-message {
-        margin-left: 0px;
-        margin-top: 20px;
-      }
-    </style>
-
-    <?php if($did_update_options): ?>
-      <div id="message" class="updated notice notice-success is-dismissible below-h2 staff-success-message">
-        <p>Options updated.</p>
-      </div>
-    <?php endif; ?>
-
-    <form method="post">
-
-      <h2>Templates</h2>
-
-      <p>Choose template:</p>
-
-      <p>
-        <?php if($current_template == 'list'): ?>
-          <input type="radio" name="staff_templates[slug]" value="list" checked />
-        <?php else: ?>
-          <input type="radio" name="staff_templates[slug]" value="list" />
-        <?php endif; ?>
-        List
-      </p>
-
-      <p>
-        <?php if($current_template == 'grid'): ?>
-          <input type="radio" name="staff_templates[slug]" value="grid" checked />
-        <?php else: ?>
-          <input type="radio" name="staff_templates[slug]" value="grid" />
-        <?php endif; ?>
-        Grid
-      </p>
-
-      <p>
-        <?php if($current_template == 'custom'): ?>
-          <input type="radio" name="staff_templates[slug]" value="custom" checked />
-        <?php else: ?>
-          <input type="radio" name="staff_templates[slug]" value="custom">
-        <?php endif; ?>
-        Custom
-      </p>
-
-      <?php if($current_template == 'custom'): ?>
-        <div id="custom-template">
-      <?php else: ?>
-        <div id="custom-template" style="display:none;">
-      <?php endif;?>
-        <p>
-          Accepted Shortcodes - These MUST be used inside the <code>[staff_loop]</code> shortcodes:
-        </p>
-
-        <p>
-          <code>[name]</code>,
-          <code>[photo_url]</code>,
-          <code>[position]</code>,
-          <code>[email]</code>,
-          <code>[phone]</code>,
-          <code>[bio]</code>,
-          <code>[website]</code>,
-          <code>[category]</code>
-        </p>
-
-        <p>
-          These will only return string values. If you would like to return pre-formatted headers (using &lt;h3&gt; tags), links, and paragraphs, use these:
-        </p>
-
-        <p>
-          <code>[name_header]</code>,
-          <code>[photo]</code>,
-          <code>[email_link]</code>,
-          <code>[bio_paragraph]</code>,
-          <code>[website_link]</code>
-        </p>
-
-        <label for="staff_templates[html]">Staff Page HTML:</label>
-        <p>
-          <textarea name="staff_templates[html]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_html_template')); ?></textarea>
-        </p>
-
-        <label for="staff_templates[css]">Staff Page CSS:</label>
-        <p>
-          <textarea name="staff_templates[css]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_css_template')); ?></textarea>
-        </p>
-      </div>
-
-      <p>
-        <input type="submit" class="button button-primary button-large" value="Save">
-      </p>
-    </form>
-
-    <?php
   }
 
   static function help() {
-    ?>
-
-    <h2>Shortcodes</h2>
-
-    <p>
-      Use the <code>[staff-directory]</code> shortcode in a post or page to display your staff.
-    </p>
-
-    <p>
-      The following parameters are accepted:
-      <ul>
-        <li><code>cat</code> - the staff category ID to use. (Ex: [staff-directory cat=1])</li>
-        <li><code>id</code> - the ID for a single staff member. (Ex: [staff-directory id=4])</li>
-        <li><code>orderby</code> - the attribute to use for ordering. Supported values are 'name' and 'ID'. (Ex: [staff-directory orderby=name])</li>
-        <li><code>order</code> - the order in which to arrange the staff members. Supported values are 'asc' and 'desc'. (Ex: [staff-directory orbder=asc])</li>
-      </ul>
-      Note - Ordering options can be viewed here - <a href="https://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters">https://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters</a>
-    </p>
-
-    <h2>Template Tag</h2>
-
-    <p>
-      This plugin previsouly supported a custom template function, but it's now
-      recommended to use the following if you need to hardcode a staff directory
-      into a template:
-      <br />
-      <code>&lt;?php echo do_shortcode( '[staff-directory]' ); ?&gt;</code>
-    </p>
-
-    <?php
+    require_once(plugin_dir_path(__FILE__) . '../views/admin_help.php');
   }
 
   static function import() {

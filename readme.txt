@@ -1,17 +1,27 @@
 === Plugin Name ===
 Contributors: adamtootle
-Tags: staff directory
+Tags: staff directory, staff, employees, team members, faculty
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9.4
+Stable Tag: tags/0.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
- Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
+ Easily display a list of staff/faculty/team members. Supports staff categories as well. Good for churches, companies, schools, teams, etc.
 
 == Description ==
 
-Staff Directory is deigned to keep track of your list of staff members for easy display on your site. It also allows for categorization of your staff.
+Staff Directory is deigned to help you easily display a list of staff/faculty/team members. It also supports an array of options for the [staff-directory] shortcode.
+
+Features:
+
+<ul>
+<li>[staff-directory] shortcode with options for ordering, categories, etc.</li>
+<li>Staff categories</li>
+<li>Ability to create custom staff details fields, complete with auto-generating shortcodes for custom fields</li>
+<li>2 default templates for displaying staff</li>
+<li>Custom templates for displaying staff</li>
+</ul>
 
 == Installation ==
 
@@ -19,7 +29,37 @@ Staff Directory is deigned to keep track of your list of staff members for easy 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. See the admin help page for usage instructions
 
+== Frequently Asked Questions ==
+
+= What happened to my categories after I updated to version 0.9? =
+
+Staff categories are now managed using the internal WordPress category management system. This means that old staff category IDs could not be maintained during the import. The plugin has added support for showing the new category IDs in the Staff Categories table so you can easily get the new IDs in order to update existing shortcodes.
+
 == Changelog ==
+
+= 0.9.8 =
+<ul>
+<li>Added the ability to create custom details fields for staff members. If you were using [email], [website], [phone], or [position] shortcodes before please take a look at the Staff settings page in this release for notes on how the shortcodes work with this new feature.</li>
+<li>Added featured images and IDs to the Staff table.</li>
+</ul>
+
+= 0.9.7 =
+<ul>
+<li>Added an ID column to the staff categories table for easily getting the new IDs</li>
+</ul>
+
+= 0.9.6 =
+<ul>
+<li>Fixed a potential error with how the array of featured imgage data is accessed</li>
+<li>Fixed how the template defaults to 'custom' on the frontend if the template option isn't set but the custom html option is</li>
+</ul>
+
+= 0.9.5 =
+<ul>
+<li>Added a couple of stock templates for anyone who may not want to use the custom template option</li>
+<li>Fixed the issue where staff queries were limited to 10 results</li>
+<li>Changed how the [photo] template tag was being replaced</li>
+</ul>
 
 = 0.9.4 =
 <ul>
@@ -65,7 +105,6 @@ APIs.
 </ul>
 
 = 0.8b =
-
 <ul>
 <li>Added STAFF PHOTOS!!!</li>
 <li>Added multiple deletes</li>
@@ -74,15 +113,23 @@ APIs.
 </ul>
 
 = 0.7b =
-*Added templating system.
-*Added the ability to import existing Wordpress users.
-*Added a default 'Uncategorized' category for new installs.
+<ul>
+<li>Added templating system.</li>
+<li>Added the ability to import existing Wordpress users.</li>
+<li>Added a default 'Uncategorized' category for new installs.</li>
+</ul>
 
 = 0.6.02b =
-* Enabled editor access to the plugin.
+<ul>
+<li>Enabled editor access to the plugin.</li>
+</ul>
 
 = 0.6.01b =
-* Removed a line of debug code.
+<ul>
+<li>Removed a line of debug code.</li>
+</ul>
 
 = 0.6b =
-* Initial beta release.
+<ul>
+<li>Initial beta release.</li>
+</ul>

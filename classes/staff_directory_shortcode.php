@@ -23,7 +23,10 @@ class StaffDirectoryShortcode {
   static function show_staff_directory($param = null){
   	parse_str($param);
   	global $wpdb;
-    $current_template = get_option('staff_directory_template_slug', 'list');
+    $current_template = get_option('staff_directory_template_slug');
+    if($current_template == '' && get_option('staff_directory_html_template') != '') {
+      $current_template = 'custom';
+    }
 
   	// make sure we aren't calling both id and cat at the same time
   	if(isset($id) && $id!= '' && isset($cat) && $cat != ''){
@@ -133,8 +136,9 @@ EOT;
       $bio = get_the_content();
 
       if(has_post_thumbnail()) {
-        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
-        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
+        $photo_html = '<div class="photo"><img src="' . $photo_url . '" /></div>';
       } else {
         $photo_html = '';
       }
@@ -215,8 +219,9 @@ EOT;
       $position = get_post_meta(get_the_ID(), 'position', true);
 
       if(has_post_thumbnail()) {
-        $photo = wp_get_attachment_image_src(get_post_thumbnail_id())[0];
-        $photo_html = '<div class="photo"><img src="' . $photo . '" /></div>';
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
+        $photo_html = '<div class="photo"><img src="' . $photo_url . '" /></div>';
       } else {
         $photo_html = '';
       }
@@ -246,8 +251,8 @@ EOT;
 
       $staff_name = get_the_title();
       if (has_post_thumbnail()) {
-        $photo_url = wp_get_attachment_image_src(get_post_thumbnail_id());
-        $photo_url = $photo_url[0];
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id());
+        $photo_url = $attachment_array[0];
         $photo_tag = '<img src="' . $photo_url . '" />';
       } else {
         $photo_url = "";
@@ -269,14 +274,30 @@ EOT;
         $staff_category = "";
       }
 
-      $accepted_single_tags = array("[name]", "[photo_url]", "[position]", "[email]", "[phone]", "[bio]", "[website]", "[category]");
-  		$replace_single_values = array($staff_name, $photo_url, $staff_position, $staff_email, $staff_phone_number, $staff_bio, $staff_website, $staff_category);
+      $accepted_single_tags = array("[name]", "[photo_url]", "[bio]", "[category]");
+  		$replace_single_values = array($staff_name, $photo_url, $staff_bio, $staff_category);
 
   		$accepted_formatted_tags = array("[name_header]", "[photo]", "[email_link]", "[bio_paragraph]", "[website_link]");
   		$replace_formatted_values = array("<h3>$staff_name</h3>", $photo_tag, $staff_email_link, "<p>$staff_bio</p>", $staff_website_link);
 
   		$current_staff_markup = str_replace($accepted_single_tags, $replace_single_values, $loop_markup);
   		$current_staff_markup = str_replace($accepted_formatted_tags, $replace_formatted_values, $current_staff_markup);
+
+      preg_match_all("/\[[a-z]+_[a-z]+\]/", $current_staff_markup, $other_matches);
+      $staff_meta_fields = get_option('staff_meta_fields');
+
+      if($staff_meta_fields != '' && count($other_matches) > 0) {
+        foreach($other_matches as $match) {
+          foreach($staff_meta_fields as $field) {
+            $meta_key = $field['slug'];
+            $shortcode_without_brackets = substr($match[0], 1, strlen($match[0]) - 2);
+            if($meta_key == $shortcode_without_brackets) {
+              $meta_value = get_post_meta(get_the_ID(), $meta_key, true);
+              $current_staff_markup = str_replace($match[0], $meta_value, $current_staff_markup);
+            }
+          }
+        }
+      }
 
   		$output .= $current_staff_markup;
     }
