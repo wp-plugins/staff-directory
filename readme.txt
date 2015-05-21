@@ -1,19 +1,27 @@
 === Plugin Name ===
 Contributors: adamtootle
-Tags: staff directory
+Tags: staff directory, staff, employees, team members, faculty
 Requires at least: 2.3.0
 Tested up to: 4.2.1
-Stable Tag: tags/0.9.7
+Stable Tag: tags/0.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
- Easily display a list of staff/faculty/team members. Supports staff categories as well. Good for churches, companies, teams, etc.
+ Easily display a list of staff/faculty/team members. Supports staff categories as well. Good for churches, companies, schools, teams, etc.
 
 == Description ==
 
-Staff Directory is deigned to help you easily display a list of staff/faculty/team members. It also supports staff categories as well as an array of options for the [staff-directory] shortcode.
+Staff Directory is deigned to help you easily display a list of staff/faculty/team members. It also supports an array of options for the [staff-directory] shortcode.
 
-The plugin provides 2 basic templates but also offers a completely custom template option.
+Features:
+
+<ul>
+<li>[staff-directory] shortcode with options for ordering, categories, etc.</li>
+<li>Staff categories</li>
+<li>Ability to create custom staff details fields, complete with auto-generating shortcodes for custom fields</li>
+<li>2 default templates for displaying staff</li>
+<li>Custom templates for displaying staff</li>
+</ul>
 
 == Installation ==
 
@@ -28,6 +36,12 @@ The plugin provides 2 basic templates but also offers a completely custom templa
 Staff categories are now managed using the internal WordPress category management system. This means that old staff category IDs could not be maintained during the import. The plugin has added support for showing the new category IDs in the Staff Categories table so you can easily get the new IDs in order to update existing shortcodes.
 
 == Changelog ==
+
+= 0.9.8 =
+<ul>
+<li>Added the ability to create custom details fields for staff members. If you were using [email], [website], [phone], or [position] shortcodes before please take a look at the Staff settings page in this release for notes on how the shortcodes work with this new feature.</li>
+<li>Added featured images and IDs to the Staff table.</li>
+</ul>
 
 = 0.9.7 =
 <ul>

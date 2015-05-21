@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Staff Directory
-Plugin URI: http://www.89designs.net/2010/01/staff-directory/
+Plugin URI: https://wordpress.org/plugins/staff-directory/
 Description: Allows Wordpress to keep track of your staff directory for your website. Good for churches, small companies, etc.
-Version: 0.9.7
+Version: 0.9.8
 Author: Adam Tootle
 Author URI: http://www.adamtootle.com
 */
