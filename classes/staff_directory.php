@@ -126,25 +126,16 @@ class StaffDirectory {
       }
     </style>
 
-    <p>
-      <label for="staff[position]" class="staff-label"><?php _e('Position'); ?>:</label>
-      <input type="text" name="staff[position]" value="<?php echo get_post_meta($post->ID, 'position', true); ?>" />
-    </p>
-
-    <p>
-      <label for="staff[email]" class="staff-label"><?php _e('Email'); ?>:</label>
-      <input type="text" name="staff[email]" value="<?php echo get_post_meta($post->ID, 'email', true); ?>" />
-    </p>
-
-    <p>
-      <label for="staff[phone_number]" class="staff-label"><?php _e('Phone Number'); ?>:</label>
-      <input type="text" name="staff[phone_number]" value="<?php echo get_post_meta($post->ID, 'phone_number', true); ?>" />
-    </p>
-
-    <p>
-      <label for="staff[website]" class="staff-label"><?php _e('Website'); ?>:</label>
-      <input type="text" name="staff[website]" value="<?php echo get_post_meta($post->ID, 'website', true); ?>" />
-    </p>
+    <?php foreach(get_option('staff_meta_fields') as $field): ?>
+      <p>
+        <label for="staff[<?php echo $field['slug'] ?>]" class="staff-label"><?php _e($field['name']); ?>:</label>
+        <?php if($field['type'] == 'text'): ?>
+          <input type="text" name="staff_meta[<?php echo $field['slug'] ?>]" value="<?php echo get_post_meta($post->ID, $field['slug'], true); ?>" />
+        <?php elseif($field['type'] == 'textarea'): ?>
+          <textarea cols=40 rows=5 name="staff_meta[<?php echo $field['slug'] ?>]"><?php echo get_post_meta($post->ID, $field['slug'], true); ?></textarea>
+        <?php endif; ?>
+      </p>
+    <?php endforeach; ?>
 
     <?php
   }
@@ -159,17 +150,39 @@ class StaffDirectory {
     if(!current_user_can('edit_post', get_the_id()))
       return;
 
-    if(isset($_POST['staff']['position']))
-      update_post_meta($post_id, 'position', esc_attr($_POST['staff']['position']));
+    foreach(array_keys($_POST['staff_meta']) as $meta_field_slug) {
+      update_post_meta($post_id, $meta_field_slug, esc_attr($_POST['staff_meta'][$meta_field_slug]));
+    }
+  }
 
-    if(isset($_POST['staff']['email']))
-      update_post_meta($post_id, 'email', esc_attr($_POST['staff']['email']));
+  static function set_default_meta_fields_if_necessary() {
+    $current_meta_fields = get_option('staff_meta_fields');
 
-    if(isset($_POST['staff']['phone_number']))
-      update_post_meta($post_id, 'phone_number', esc_attr($_POST['staff']['phone_number']));
-
-      if(isset($_POST['staff']['website']))
-        update_post_meta($post_id, 'website', esc_attr($_POST['staff']['website']));
+    if($current_meta_fields == NULL || $current_meta_fields = '') {
+      $default_meta_fields = array(
+        array(
+          'name' => 'Position',
+          'type' => 'text',
+          'slug' => 'position'
+        ),
+        array(
+          'name' => 'Email',
+          'type' => 'text',
+          'slug' => 'email'
+        ),
+        array(
+          'name' => 'Phone Number',
+          'type' => 'text',
+          'slug' => 'phone_number'
+        ),
+        array(
+          'name' => 'Website',
+          'type' => 'text',
+          'slug' => 'website'
+        )
+      );
+      update_option('staff_meta_fields', $default_meta_fields);
+    }
   }
 
   #
@@ -177,31 +190,36 @@ class StaffDirectory {
   #
 
   static function set_default_templates_if_necessary() {
-    if (get_option('staff_directory_html_template', true) == '') {
-      $default_html_template = "<div class=\"staff-directory\">
+    if(get_option('staff_directory_template_slug') == '') {
+      update_option('staff_directory_template_slug', 'list');
+    }
 
-        [staff_loop]
+    if (get_option('staff_directory_html_template') == '') {
+      $default_html_template = <<<EOT
+<div class="staff-directory">
 
-            [name_header]
-            [position]
-            [email_link]
-            [bio_paragraph]
+  [staff_loop]
 
-            <div class=\"staff-directory-divider\">
-            </div>
+    [name_header]
+    [bio_paragraph]
 
-        [/staff_loop]
+    <div class="staff-directory-divider"></div>
 
-        </div>";
+  [/staff_loop]
+
+</div>
+EOT;
         update_option('staff_directory_html_template', $default_html_template);
     }
 
-    if (get_option('staff_directory_css_template', true) == '') {
-      $default_css_template = ".staff-directory-divider{
-            border-top: solid black thin;
-            width: 90%;
-            margin:15px 0;
-        }";
+    if (get_option('staff_directory_css_template') == '') {
+      $default_css_template = <<<EOT
+.staff-directory-divider{
+  border-top: solid black thin;
+  width: 90%;
+  margin:15px 0;
+}
+EOT;
         update_option('staff_directory_css_template', $default_css_template);
     }
   }

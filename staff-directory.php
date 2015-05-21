@@ -20,6 +20,7 @@ require_once(dirname(__FILE__) . '/classes/staff_directory_shortcode.php');
 require_once(dirname(__FILE__) . '/classes/staff_directory_admin.php');
 
 StaffDirectory::register_post_types();
+StaffDirectory::set_default_meta_fields_if_necessary();
 StaffDirectoryAdmin::register_admin_menu_items();
 StaffDirectoryShortcode::register_shortcode();
 
