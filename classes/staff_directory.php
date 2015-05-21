@@ -9,6 +9,8 @@ class StaffDirectory {
   static function register_post_types() {
     add_action('init', array('StaffDirectory', 'create_post_types'));
     add_action('init', array('StaffDirectory', 'create_staff_taxonomies'));
+    add_filter("manage_edit-staff_columns", array('StaffDirectory', 'set_staff_admin_columns'));
+    add_filter("manage_staff_posts_custom_column", array('StaffDirectory', 'custom_staff_admin_columns'), 10, 3);
     add_filter("manage_edit-staff_category_columns", array('StaffDirectory', 'set_staff_category_columns'));
     add_filter("manage_staff_category_custom_column", array('StaffDirectory', 'custom_staff_category_columns'), 10, 3);
     add_filter('enter_title_here', array('StaffDirectory', 'staff_title_text'));
@@ -60,11 +62,41 @@ class StaffDirectory {
   	));
   }
 
+  static function set_staff_admin_columns() {
+    $new_columns = array(
+  	  'cb' => '<input type="checkbox" />',
+  	  'title' => __('Title'),
+      'id' => __('ID'),
+      'featured_image' => __('Featured Image'),
+      'date' => __('Date')
+  	);
+  	return $new_columns;
+  }
+
+  static function custom_staff_admin_columns($column_name, $post_id) {
+    $out = '';
+    switch ($column_name) {
+      case 'featured_image':
+        $attachment_array = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+        $photo_url = $attachment_array[0];
+        $out .= '<img src="' . $photo_url . '" style="max-height: 60px; width: auto;" />';
+        break;
+
+      case 'id':
+          $out .= $post_id;
+          break;
+
+      default:
+        break;
+    }
+    echo $out;
+  }
+
   static function set_staff_category_columns() {
     $new_columns = array(
   	  'cb' => '<input type="checkbox" />',
   	  'name' => __('Name'),
-  	  'id' => __('ID'),
+      'id' => __('ID'),
   		'description' => __('Description'),
       'slug' => __('Slug'),
       'posts' => __('Posts')
