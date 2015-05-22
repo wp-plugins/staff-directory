@@ -19,6 +19,9 @@ class StaffDirectory {
     add_action('save_post', array('StaffDirectory', 'save_meta_boxes'));
     add_action('wp_enqueue_scripts', array('StaffDirectory', 'enqueue_fontawesome'));
     add_action('admin_enqueue_scripts', array('StaffDirectory', 'enqueue_fontawesome'));
+
+    add_action('init', array('StaffDirectory', 'init_tinymce_button'));
+    add_action('wp_ajax_get_my_form', array('StaffDirectory', 'thickbox_ajax_form'));
   }
 
   static function create_post_types() {
@@ -458,5 +461,28 @@ EOT;
         $old_categories_table, $old_staff_directory_table, $old_templates_table
     ";
     $wpdb->get_results($drop_tables_sql);
+  }
+
+  static function init_tinymce_button() {
+    if ( ! current_user_can('edit_posts') && ! current_user_can('edit_pages') && get_user_option('rich_editing') == 'true')
+         return;
+
+    add_filter("mce_external_plugins", array('StaffDirectory', 'register_tinymce_plugin'));
+    add_filter('mce_buttons', array('StaffDirectory', 'add_tinymce_button'));
+  }
+
+  static function register_tinymce_plugin($plugin_array) {
+    $plugin_array['staff_directory_button'] = plugins_url('/../js/shortcode.js', __FILE__);;
+    return $plugin_array;
+  }
+
+  static function add_tinymce_button($buttons) {
+    $buttons[] = "staff_directory_button";
+    return $buttons;
+  }
+
+  static function thickbox_ajax_form(){
+    require_once(plugin_dir_path(__FILE__) . '/../views/shortcode_thickbox.php');
+    exit;
   }
 }
