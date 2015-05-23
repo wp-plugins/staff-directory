@@ -15,21 +15,24 @@ class StaffDirectoryShortcode {
 
   	$output = '';
 
-  	// get all staff
-  	$param = "id=$id&cat=$cat&orderby=$orderby&order=$order";
-  	return StaffDirectoryShortcode::show_staff_directory($param);
-  }
-
-  static function show_staff_directory($param = null){
-  	parse_str($param);
-  	global $wpdb;
-    $current_template = get_option('staff_directory_template_slug');
-    if($current_template == '' && get_option('staff_directory_html_template') != '') {
-      $current_template = 'custom';
+    $staff_settings = StaffSettings::sharedInstance();
+    if(isset($params['template'])) {
+      $template = $params['template'];
+    } else {
+      $template = $staff_settings->getCurrentDefaultStaffTemplate();
     }
 
+  	// get all staff
+  	$param = "id=$id&cat=$cat&orderby=$orderby&order=$order";
+  	return StaffDirectoryShortcode::show_staff_directory($param, $template);
+  }
+
+  static function show_staff_directory($param = null, $template = NULL){
+  	parse_str($param);
+  	global $wpdb;
+
   	// make sure we aren't calling both id and cat at the same time
-  	if(isset($id) && $id!= '' && isset($cat) && $cat != ''){
+  	if(isset($id) && $id != '' && isset($cat) && $cat != ''){
   		return "<strong>ERROR: You cannot set both a single ID and a category ID for your Staff Directory</strong>";
   	}
 
@@ -63,16 +66,15 @@ class StaffDirectoryShortcode {
 
     $staff_query = new WP_Query($query_args);
 
-    switch($current_template){
+    switch($template){
       case 'list':
-      default:
         $output = StaffDirectoryShortcode::html_for_list_template($staff_query);
         break;
       case 'grid':
         $output = StaffDirectoryShortcode::html_for_grid_template($staff_query);
         break;
-      case 'custom':
-        $output = StaffDirectoryShortcode::html_for_custom_template($staff_query);
+      default:
+        $output = StaffDirectoryShortcode::html_for_custom_template($template, $staff_query);
         break;
 
     }
@@ -238,13 +240,25 @@ EOT;
     return $output;
   }
 
-  static function html_for_custom_template($wp_query) {
-    $output = '';
-    $index_html = stripslashes(get_option('staff_directory_html_template'));
-  	$index_css = stripslashes(get_option('staff_directory_css_template'));
+  static function html_for_custom_template($template_slug, $wp_query) {
+    $staff_settings = StaffSettings::sharedInstance();
 
-  	$output .= "<style type=\"text/css\">$index_css</style>";
-  	$loop_markup = $loop_markup_reset = str_replace("[staff_loop]", "", substr($index_html, strpos($index_html, "[staff_loop]"), strpos($index_html, "[/staff_loop]") - strpos($index_html, "[staff_loop]")));
+    $output = '';
+
+    $template = $staff_settings->getCustomStaffTemplateForSlug($template_slug);
+    $template_html = stripslashes($template['html']);
+  	$template_css = stripslashes($template['css']);
+
+  	$output .= "<style type=\"text/css\">$template_css</style>";
+
+    if(strpos($template_html, '[staff_loop]')) {
+      $before_loop_markup = substr($template_html, 0, strpos($template_html, "[staff_loop]"));
+      $after_loop_markup = substr($template_html, strpos($template_html, "[/staff_loop]") + strlen("[/staff_loop]"), strlen($template_html) - strpos($template_html, "[/staff_loop]"));
+      $loop_markup = str_replace("[staff_loop]", "", substr($template_html, strpos($template_html, "[staff_loop]"), strpos($template_html, "[/staff_loop]") - strpos($template_html, "[staff_loop]")));
+      $output .= $before_loop_markup;
+    } else {
+      $loop_markup = $template_html;
+    }
 
     while($wp_query->have_posts()) {
       $wp_query->the_post();
@@ -259,7 +273,6 @@ EOT;
         $photo_tag = "";
       }
 
-      $staff_position = get_post_meta(get_the_ID(), 'position', true);
       $staff_email = get_post_meta(get_the_ID(), 'email', true);
       $staff_email_link = $staff_email != '' ? "<a href=\"mailto:$staff_email\">Email $staff_name</a>" : "";
       $staff_phone_number = get_post_meta(get_the_ID(), 'phone_number', true);
@@ -283,7 +296,7 @@ EOT;
   		$current_staff_markup = str_replace($accepted_single_tags, $replace_single_values, $loop_markup);
   		$current_staff_markup = str_replace($accepted_formatted_tags, $replace_formatted_values, $current_staff_markup);
 
-      preg_match_all("/\[[a-z]+_[a-z]+\]/", $current_staff_markup, $other_matches);
+      preg_match_all("/\[[a-z]+_?[a-z]+\]/", $current_staff_markup, $other_matches);
       $staff_meta_fields = get_option('staff_meta_fields');
 
       if($staff_meta_fields != '' && count($other_matches) > 0) {
@@ -301,6 +314,11 @@ EOT;
 
   		$output .= $current_staff_markup;
     }
+
+    if(isset($after_loop_markup)) {
+      $output .= $after_loop_markup;
+    }
+
     return $output;
   }
 }

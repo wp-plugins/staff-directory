@@ -14,6 +14,7 @@ StaffDirectory = {
   formatShortCode: function(){
     var categoryVal = jQuery('[name="staff-category"]').val();
     var orderVal = jQuery('[name="staff-order"]').val();
+    var templateVal = jQuery('[name="staff-template"]').val();
     
     var shortcode = '[staff-directory';
 
@@ -23,6 +24,10 @@ StaffDirectory = {
 
     if(orderVal != '') {
       shortcode += ' order=' + orderVal;
+    }
+
+    if(templateVal != '') {
+      shortcode += ' template=' + templateVal;
     }
 
     shortcode += ']';

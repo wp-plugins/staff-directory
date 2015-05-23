@@ -12,59 +12,32 @@ class StaffDirectoryAdmin {
   }
 
   static function settings() {
-    if (isset($_POST['staff_templates']['slug']) && $_POST['staff_templates']['slug'] != 'custom') {
 
-      update_option('staff_directory_template_slug', $_POST['staff_templates']['slug']);
+    $staff_settings = StaffSettings::sharedInstance();
+
+    if(isset($_GET['delete-template'])) {
+      $staff_settings->deleteCustomTemplate($_GET['delete-template']);
+    }
+
+    if (isset($_POST['staff_templates']['slug'])) {
+      $staff_settings->updateDefaultStaffTemplateSlug($_POST['staff_templates']['slug']);
       $did_update_options = true;
+    }
 
-    } else if ($_POST['staff_templates']['slug'] == 'custom') {
-
-      update_option('staff_directory_template_slug', 'custom');
-      if (isset($_POST['staff_templates']['html'])) {
-        update_option('staff_directory_html_template', $_POST['staff_templates']['html']);
-      }
-      if (isset($_POST['staff_templates']['css'])) {
-        update_option('staff_directory_css_template', $_POST['staff_templates']['css']);
-      }
-
+    if (isset($_POST['custom_staff_templates'])) {
+      $staff_settings->updateCustomStaffTemplates($_POST['custom_staff_templates']);
       $did_update_options = true;
-
     }
 
     if (isset($_POST['staff_meta_fields_labels'])) {
-      $index = 0;
-      $meta_fields_array = array();
-      foreach($_POST['staff_meta_fields_labels'] as $meta_label) {
-        $slug = strtolower($meta_label);
-        $slug = str_replace(' ', '_', $slug);
-        if($meta_label != '') {
-          $meta_fields_array[] = array(
-            'name' => $meta_label,
-            'slug' => $slug,
-            'type' => $_POST['staff_meta_fields_types'][$index]
-          );
-        }
-        $index++;
-      }
-      update_option('staff_meta_fields', $meta_fields_array);
+      $staff_settings->updateCustomStaffMetaFields($_POST['staff_meta_fields_labels']);
+      $did_update_options = true;
     }
 
-    $current_template = get_option('staff_directory_template_slug');
-
-    if($current_template == '' && get_option('staff_directory_html_template') != '') {
-      update_option('staff_directory_template_slug', 'custom');
-      $current_template = 'custom';
-    } else if($current_template == '') {
-      update_option('staff_directory_template_slug', 'list');
-      $current_template = 'list';
-    }
-
-    
-
-    add_thickbox(); // loads thickbox
+    $current_template = $staff_settings->getCurrentDefaultStaffTemplate();
+    $custom_templates = $staff_settings->getCustomStaffTemplates();
 
     require_once(plugin_dir_path(__FILE__) . '../views/admin_settings.php');
-
   }
 
   static function help() {

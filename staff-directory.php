@@ -15,6 +15,10 @@ define('STAFF_DIRECTORY_TABLE', $wpdb->prefix . 'staff_directory');
 define('STAFF_TEMPLATES', $wpdb->prefix . 'staff_directory_templates');
 define('STAFF_PHOTOS_DIRECTORY', WP_CONTENT_DIR . "/uploads/staff-photos/");
 
+require_once(dirname(__FILE__) . '/classes/staff_settings.php');
+
+StaffSettings::setupDefaults();
+
 require_once(dirname(__FILE__) . '/classes/staff_directory.php');
 require_once(dirname(__FILE__) . '/classes/staff_directory_shortcode.php');
 require_once(dirname(__FILE__) . '/classes/staff_directory_admin.php');

@@ -1,12 +1,5 @@
 <script type="text/javascript">
   jQuery(document).ready(function($){
-    $('input[name="staff_templates[slug]"]').on('change', function(){
-      if($(this).val() == 'custom') {
-        $("#custom-template").slideDown();
-      } else {
-        $("#custom-template").slideUp();
-      }
-    })
 
     $('#add-new-field').on('click', function(ev){
       ev.preventDefault();
@@ -18,6 +11,24 @@
     $(document).on('click', '.remove-field', function(ev){
       ev.preventDefault();
       $(this).parent().parent().remove();
+    });
+
+    $(document).on('click', '.custom-template-dropdown-arrow', function(ev){
+      ev.preventDefault();
+      $(this).toggleClass('fa-angle-down');
+      $(this).toggleClass('fa-angle-up');
+
+      var customTemplate = $(this).parent().next(); // .custom-template
+      customTemplate.slideToggle();
+    });
+
+    $(document).on('click', '.delete-template', function(ev){
+      ev.preventDefault();
+
+      var templateIndex = $(this).data('template-index');
+      if(confirm("Are you sure you want to delete Custom Template " + (templateIndex) + "? This cannot be undone.")) {
+        window.location.href = "<?php echo get_admin_url(); ?>edit.php?post_type=staff&page=staff-directory-settings&delete-template=" + templateIndex;
+      }
     });
   });
 </script>
@@ -32,6 +43,20 @@
   }
   .form-group {
     margin-bottom: 50px;
+  }
+  .custom-template {
+    display: none;
+    margin-bottom: 40px;
+  }
+  .custom-template-dropdown-arrow {
+    text-decoration: none;
+  }
+  .staff-template-textarea-wrapper {
+    float: left;
+    width: 40%;
+  }
+  .staff-template-textarea-wrapper textarea {
+    height: 170px;
   }
 </style>
 
@@ -125,7 +150,9 @@
   <div class="form-group">
     <h2>Templates</h2>
 
-    <p>Choose template:</p>
+    <p>Template instructions can be found on the <a href="<?php echo get_admin_url(); ?>edit.php?post_type=staff&page=staff-directory-help#staff-templates">Staff Help page</a></p>
+
+    <p>Templates can be chosen manually with the [staff-directory] shortcode, or you can choose to set a default template here:</p>
 
     <p>
       <?php if($current_template == 'list'): ?>
@@ -145,51 +172,34 @@
       Grid
     </p>
 
+    <?php foreach($custom_templates as $template): ?>
+      <?php require(plugin_dir_path(__FILE__) . '/partials/admin_custom_template.php'); ?>
+    <?php endforeach; ?>
+
     <p>
-      <?php if($current_template == 'custom'): ?>
-        <input type="radio" name="staff_templates[slug]" value="custom" checked />
-      <?php else: ?>
-        <input type="radio" name="staff_templates[slug]" value="custom">
-      <?php endif; ?>
-      Custom
+      <input type="radio" name="staff_templates[slug]" value="custom_<?php echo count($custom_templates) + 1; ?>" disabled>
+      Custom Template <?php echo count($custom_templates) + 1; ?> (save template before you select) <a href="#" class="fa fa-angle-down custom-template-dropdown-arrow"></a>
     </p>
 
-    <?php if($current_template == 'custom'): ?>
-      <div id="custom-template">
-    <?php else: ?>
-      <div id="custom-template" style="display:none;">
-    <?php endif;?>
-      <p>
-        Accepted Shortcodes are listed in the Custom Details Fields table above. These shortcodes must be contained within the <code>[staff_loop]</code> shortcodes.
-      </p>
+    <div class="custom-template">
+      <div class="staff-template-textarea-wrapper">
+        <label for="custom_staff_templates[<?php echo count($custom_templates) + 1; ?>][html]">HTML:</label>
+        <p>
+          <textarea name="custom_staff_templates[<?php echo count($custom_templates) + 1; ?>][html]" class="large-text code"></textarea>
+        </p>
+      </div>
 
-      <p>
-        Preformatted shortcodes are listed below. There were more options in this list previously, but due to the addition of the Custom Details Fields above some of them were removed from the suggestions. They will still work for now, but deprecated shortcodes are marked below and will no longer work at some point in the future.
-      </p>
-
-      <ul>
-        <li><code>[photo_url]</code> - the url to the featured image for the staff member</li>
-        <li><code>[photo]</code> - an &lt;img&gt; tag with the featured image for the staff member</li>
-        <li><code>[name]</code> - the staff member's name</li>
-        <li><code>[name_header]</code> - the staff member's name with &lt;h3&gt; tags</li>
-        <li><code>[bio]</code> - the staff member's bio</li>
-        <li><code>[bio_paragraph]</code> - the staff member's bio with &lt;p&gt; tags</li>
-        <li><code>[category]</code> - the staff member's category</li>
-        <li><code>[email_link]</code> (deprecated, requires and Email field above)</li>
-        <li><code>[website_link]</code> (deprecated, requires a Website field above)</li>
-      </ul>
-
-      <label for="staff_templates[html]">Staff Page HTML:</label>
-      <p>
-        <textarea name="staff_templates[html]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_html_template')); ?></textarea>
-      </p>
-
-      <label for="staff_templates[css]">Staff Page CSS:</label>
-      <p>
-        <textarea name="staff_templates[css]" rows="10" cols="50" class="large-text code"><?php echo stripslashes(get_option('staff_directory_css_template')); ?></textarea>
-      </p>
+      <div class="staff-template-textarea-wrapper">
+        <label for="custom_staff_templates[<?php echo count($custom_templates) + 1; ?>][css]">CSS:</label>
+        <p>
+          <textarea name="custom_staff_templates[<?php echo count($custom_templates) + 1; ?>][css]" class="large-text code"></textarea>
+        </p>
+      </div>
     </div>
+
   </div>
+
+  <div class="clear"></div>
 
   <p>
     <input type="submit" class="button button-primary button-large" value="Save">
