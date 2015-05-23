@@ -30,6 +30,10 @@ class StaffSettings {
     }
   }
 
+  #
+  # setters
+  #
+
   public function updateDefaultStaffTemplateSlug($slug = 'list') {
     update_option('staff_directory_template_slug', $slug);
   }
@@ -66,6 +70,10 @@ class StaffSettings {
     update_option('staff_meta_fields', $meta_fields_array);
   }
 
+  #
+  # getters
+  #
+
   public function getCurrentDefaultStaffTemplate() {
     $current_template = get_option('staff_directory_template_slug');
 
@@ -92,6 +100,14 @@ class StaffSettings {
       }
     }
   }
+
+  public function getStaffDetailsFields() {
+    return get_option('staff_meta_fields', array());
+  }
+
+  #
+  # delete functions
+  #
 
   public function deleteCustomTemplate($index = NULL) {
     if($index != NULL) {

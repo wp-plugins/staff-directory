@@ -151,6 +151,8 @@ class StaffDirectory {
 
     wp_nonce_field('staff_meta_box_nonce_action', 'staff_meta_box_nonce');
 
+    $staff_settings = StaffSettings::sharedInstance();
+
     ?>
 
     <style type="text/css">
@@ -161,7 +163,7 @@ class StaffDirectory {
       }
     </style>
 
-    <?php foreach(get_option('staff_meta_fields') as $field): ?>
+    <?php foreach($staff_settings->getStaffDetailsFields() as $field): ?>
       <p>
         <label for="staff[<?php echo $field['slug'] ?>]" class="staff-label"><?php _e($field['name']); ?>:</label>
         <?php if($field['type'] == 'text'): ?>

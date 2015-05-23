@@ -30,7 +30,7 @@ class StaffDirectoryAdmin {
     }
 
     if (isset($_POST['staff_meta_fields_labels'])) {
-      $staff_settings->updateCustomStaffMetaFields($_POST['staff_meta_fields_labels']);
+      $staff_settings->updateCustomStaffMetaFields($_POST['staff_meta_fields_labels'], $_POST['staff_meta_fields_types']);
       $did_update_options = true;
     }
 
