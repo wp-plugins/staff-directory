@@ -35,6 +35,13 @@ Features:
 
 Staff categories are now managed using the internal WordPress category management system. This means that old staff category IDs could not be maintained during the import. The plugin has added support for showing the new category IDs in the Staff Categories table so you can easily get the new IDs in order to update existing shortcodes.
 
+== Screenshots ==
+
+1. Create/view staff just like any other WordPress post/page
+2. Edit staff just like any other WordPress post/page
+3. Create custom staff categories
+4. Set custom staff details and create custom templates
+
 == Changelog ==
 
 = 1.0.0 =
