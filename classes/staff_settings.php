@@ -15,8 +15,11 @@ class StaffSettings {
 
     $current_template_slug = $staff_settings->getCurrentDefaultStaffTemplate();
     if($current_template_slug == '' || $current_template_slug == NULL) {
+      
       $staff_settings->updateDefaultStaffTemplateSlug('list');
-    } else if ($current_template_slug == 'custom') {
+
+    } else if ($current_template_slug == 'custom' || get_option('staff_directory_html_template', '') != '') {
+
       $templates_array = array();
       $templates_array[] = array(
         'html' => get_option('staff_directory_html_template'),
@@ -27,6 +30,7 @@ class StaffSettings {
 
       delete_option('staff_directory_html_template');
       delete_option('staff_directory_css_template');
+      
     }
   }
 
