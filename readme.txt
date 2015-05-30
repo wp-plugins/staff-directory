@@ -2,8 +2,8 @@
 Contributors: adamtootle
 Tags: staff directory, staff, employees, team members, faculty
 Requires at least: 2.3.0
-Tested up to: 4.2.1
-Stable Tag: tags/1.0.0
+Tested up to: 4.2.2
+Stable Tag: tags/1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,12 @@ Features:
 <li>Support for multiple templates. You can choose a default as well as choose set a template for use with the [staff-directory] shortcode.</li>
 </ul>
 
+Questions?
+
+Tweet me - [@adamtootle](https://twitter.com/adamtootle)
+Submit pull requests to the [Github report](https://github.com/adamtootle/staff-directory).
+Or you can always submit support requests at [wordpress.org support forums](https://wordpress.org/support/plugin/staff-directory).
+
 == Installation ==
 
 1. Upload the `staff-directory` directory to the `/wp-content/plugins/` directory
@@ -34,6 +40,13 @@ Features:
 = What happened to my categories after I updated to version 0.9? =
 
 Staff categories are now managed using the internal WordPress category management system. This means that old staff category IDs could not be maintained during the import. The plugin has added support for showing the new category IDs in the Staff Categories table so you can easily get the new IDs in order to update existing shortcodes.
+
+== Screenshots ==
+
+1. Create/view staff just like any other WordPress post/page
+2. Edit staff just like any other WordPress post/page
+3. Create custom staff categories
+4. Set custom staff details and create custom templates
 
 == Changelog ==
 
